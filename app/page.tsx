@@ -1,6 +1,6 @@
 import { H1 } from "@/components/custom/h1";
 import { JobFilterSidebar } from "@/components/custom/jobFilterSidebar";
-import { JobResult } from "@/components/custom/jobResults";
+import { JobResults } from "@/components/custom/jobResults";
 import { JobFilterValues } from "@/lib/validation";
 
 interface PageProps {
@@ -30,7 +30,7 @@ export default async function Home({
       </div>
       <section className="flex flex-col gap-4 md:flex-row">
         <JobFilterSidebar />
-        <JobResult filterValues={filterValues} />
+        <JobResults filterValues={filterValues} />
       </section>
     </main>
   );

@@ -7,26 +7,45 @@ interface JobResultsProps {
   filterValues: JobFilterValues;
 }
 
-//https://www.prisma.io/docs/orm/prisma-client/queries/full-text-search
 export const JobResults = async ({
   filterValues: { q, type, location, remote },
 }: JobResultsProps) => {
-  const searchString = q
-    ?.split(" ")
-    .filter((word) => word.length > 0)
-    .join(" & ");
+  const searchQuery = q?.trim().split(/ +/);
 
-  const searchFilter: Prisma.JobWhereInput = searchString
-    ? {
-        OR: [
-          { title: { search: searchString } },
-          { companyName: { search: searchString } },
-          { type: { search: searchString } },
-          { locationType: { search: searchString } },
-          { location: { search: searchString } },
-        ],
+  const searchFields = [
+    "title",
+    "companyName",
+    "type",
+    "locationType",
+    "location",
+  ];
+
+  let filter = [];
+  if (searchQuery) {
+    for (const x of searchFields) {
+      for (const y of searchQuery) {
+        filter.push({ [x]: { contains: y } });
       }
-    : {};
+    }
+  }
+
+  const searchFilter: Prisma.JobWhereInput = { OR: filter } || {};
+
+  //https://www.prisma.io/docs/orm/prisma-client/queries/full-text-search
+  // IF DATABASE FULL-TEXT SEARCH IS ENABLE (EXP: MYSQL OR POSTGRES)
+  // searchQuery?.join(" & ") //FOR POSTGRES
+  // searchQuery?.join(" ") //FOR MYSQL
+  // const searchFilter: Prisma.JobWhereInput = searchString
+  //   ? {
+  //       OR: [
+  //         { title: { search: searchString } },
+  //         { companyName: { search: searchString } },
+  //         { type: { search: searchString } },
+  //         { locationType: { search: searchString } },
+  //         { location: { search: searchString } },
+  //       ],
+  //     }
+  //   : {};
 
   const where: Prisma.JobWhereInput = {
     AND: [
