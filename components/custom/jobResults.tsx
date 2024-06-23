@@ -67,6 +67,11 @@ export const JobResults = async ({
       {jobs.map((job) => (
         <JobListItem job={job} key={job.id} />
       ))}
+      {jobs.length === 0 && (
+        <p className="text-center m-auto">
+          No jobs found. Try adjusting your search filters
+        </p>
+      )}
     </div>
   );
 };
