@@ -2,22 +2,14 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormItem,
-  FormField,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormDescription,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { H1 } from "@/components/custom/h1";
-import { FormInput, FormInputWithRef } from "@/components/form/form-input";
-// import { FormInputWithRef } from "@/components/form/form-input-with-ref";
-import { createJobSchema, CreateJobValues } from "@/lib/validation";
+import { Form } from "@/components/ui/form";
+import { FormInput } from "@/components/form/form-input";
+import { FormSearch } from "@/components/form/form-search";
 import { FormSelect } from "@/components/form/form-select";
+import { createJobSchema, CreateJobValues } from "@/lib/validation";
 import { jobTypes, locationTypes } from "@/lib/job-types";
+import citiesList from "@/lib/cities-list";
 
 export const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
@@ -76,10 +68,10 @@ export const NewJobForm = () => {
               label="Company Logo"
               type="file"
               accept="image/*"
-              // onChange={e => {
-              //   const file = e.target.files?.[0]
-              //   form.setValue("companyLogo", file)
-              // }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                form.setValue("companyLogo", file);
+              }}
             />
             <FormSelect
               control={control}
@@ -87,14 +79,17 @@ export const NewJobForm = () => {
               label="Location"
               options={locationTypes}
             />
-            <FormInputWithRef
+            <FormSearch
               control={control}
               name="location"
+              placeholder="Search for a city..."
               label="Office location"
+              lists={citiesList}
+              order={["name", "subcountry", "country"]}
             />
           </form>
         </Form>
-        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre> */}
       </div>
     </main>
   );

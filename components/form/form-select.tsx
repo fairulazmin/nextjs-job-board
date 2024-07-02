@@ -1,3 +1,4 @@
+import React from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 import { Select } from "@/components/custom/select";
@@ -8,53 +9,45 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { fixedForwardRef } from "@/lib/utils";
 
-type FormSelectProps<
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>,
-  T extends string,
-> = {
-  control: Control<TFieldValues>;
-  name: TName;
+type Props<T extends FieldValues, P extends FieldPath<T>, K extends string> = {
+  control: Control<T>;
+  name: P;
   label: string;
-  options: T[];
+  options: K[];
 } & React.ComponentPropsWithoutRef<"select">;
 
-export const FormSelect = <
-  TFieldValues extends FieldValues,
-  TName extends FieldPath<TFieldValues>,
-  T extends string,
->({
-  control,
-  name,
-  label,
-  options,
-  ...props
-}: FormSelectProps<TFieldValues, TName, T>) => {
-  return (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Select {...field} {...props}>
-              {options.map((option) => (
-                <>
-                  <option value="" hidden>
-                    Select an option
-                  </option>
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                </>
-              ))}
-            </Select>
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  );
-};
+export const FormSelect = fixedForwardRef(
+  <T extends FieldValues, P extends FieldPath<T>, K extends string>(
+    { control, name, label, options, ...props }: Props<T, P, K>,
+    ref: React.ForwardedRef<HTMLSelectElement>,
+  ) => {
+    return (
+      <FormField
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Select {...field} {...props} ref={ref}>
+                {options.map((option) => (
+                  <>
+                    <option value="" hidden>
+                      Select an option
+                    </option>
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  </>
+                ))}
+              </Select>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  },
+);

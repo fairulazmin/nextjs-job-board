@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -16,3 +17,9 @@ export const formatMoney = (amount: number) => {
 export const relativeDate = (from: Date) => {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 };
+
+type FixedForwardRef = <T, P = {}>(
+  render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
+) => (props: P & React.RefAttributes<T>) => React.ReactElement | null;
+
+export const fixedForwardRef = forwardRef as FixedForwardRef;
