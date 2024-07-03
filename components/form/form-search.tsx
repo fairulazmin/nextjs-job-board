@@ -69,13 +69,13 @@ export const FormSearch = fixedForwardRef(
               <div className="relative">
                 <Input
                   {...field}
+                  ref={ref}
                   type="search"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onFocus={() => setHasFocus(true)}
                   onBlur={() => setHasFocus(false)}
                   autoComplete="off"
-                  ref={ref}
                   {...props}
                 />
                 {field.value && (

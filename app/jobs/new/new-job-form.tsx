@@ -10,10 +10,13 @@ import { FormSelect } from "@/components/form/form-select";
 import { createJobSchema, CreateJobValues } from "@/lib/validation";
 import { jobTypes, locationTypes } from "@/lib/job-types";
 import citiesList from "@/lib/cities-list";
+import { Label } from "@/components/ui/label";
+import { FormEditor } from "@/components/form/form-editor";
 
 export const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
+    // mode: "onChange",
   });
 
   const {
@@ -39,10 +42,12 @@ export const NewJobForm = () => {
         </p>
       </div>
       <div className="space-y-6 border rounded-lg p-4">
-        <h2 className="font-semibold">Job details</h2>
-        <p className="text-muted-foreground">
-          Provide a job description and details
-        </p>
+        <div>
+          <h2 className="font-semibold">Job details</h2>
+          <p className="text-muted-foreground">
+            Provide a job description and details
+          </p>
+        </div>
         <Form {...form}>
           <form
             className="space-y-4"
@@ -87,10 +92,43 @@ export const NewJobForm = () => {
               lists={citiesList}
               order={["name", "subcountry", "country"]}
             />
+            <div className="space-y-2">
+              <Label>How to apply</Label>
+              <div className="grid gap-2 md:grid-cols-2 items-center">
+                <FormInput
+                  control={control}
+                  name="applicationEmail"
+                  type="email"
+                  label="none"
+                  placeholder="Email"
+                />
+                <FormInput
+                  control={control}
+                  name="applicationUrl"
+                  type="url"
+                  label="none"
+                  placeholder="Website"
+                />
+              </div>
+            </div>
+            <FormEditor
+              control={control}
+              name="description"
+              label="Description"
+            />
+            <FormInput
+              control={control}
+              name="salary"
+              type="number"
+              label="Salary"
+            />
           </form>
         </Form>
-        {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre> */}
+        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
       </div>
     </main>
   );
 };
+
+// "company" caused not able to submit & no ref
+// "description" caused can't call setState & no ref

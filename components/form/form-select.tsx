@@ -31,16 +31,14 @@ export const FormSelect = fixedForwardRef(
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Select {...field} {...props} ref={ref}>
+              <Select {...field} ref={ref} {...props}>
+                <option value="" hidden>
+                  Select an option
+                </option>
                 {options.map((option) => (
-                  <>
-                    <option value="" hidden>
-                      Select an option
-                    </option>
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  </>
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </Select>
             </FormControl>

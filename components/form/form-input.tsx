@@ -23,7 +23,7 @@ export const FormInput = fixedForwardRef(
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>{label}</FormLabel>
+            {label !== "none" && <FormLabel>{label}</FormLabel>}
             <FormControl>
               <Input {...field} ref={ref} {...props} />
             </FormControl>
