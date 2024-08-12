@@ -12,10 +12,24 @@ import { jobTypes, locationTypes } from "@/lib/job-types";
 import citiesList from "@/lib/cities-list";
 import { Label } from "@/components/ui/label";
 import { FormEditor } from "@/components/form/form-editor";
+import { Button } from "@/components/ui/button";
+
+const defaultValues = {
+  title: "",
+  type: "",
+  name: "",
+  locationTypes: "",
+  location: "",
+  applicationEmail: "",
+  applicationUrl: "",
+  description: "",
+  salary: "",
+};
 
 export const NewJobForm = () => {
   const form = useForm<CreateJobValues>({
     resolver: zodResolver(createJobSchema),
+    defaultValues,
     // mode: "onChange",
   });
 
@@ -93,8 +107,16 @@ export const NewJobForm = () => {
               order={["name", "subcountry", "country"]}
             />
             <div className="space-y-2">
-              <Label>How to apply</Label>
-              <div className="grid gap-2 md:grid-cols-2 items-center">
+              <Label
+                className={
+                  (form.formState.errors.applicationEmail ||
+                    form.formState.errors.applicationUrl) &&
+                  "text-destructive"
+                }
+              >
+                How to apply
+              </Label>
+              <div className="grid gap-2 md:grid-cols-2 items-start">
                 <FormInput
                   control={control}
                   name="applicationEmail"
@@ -111,17 +133,18 @@ export const NewJobForm = () => {
                 />
               </div>
             </div>
-            <FormEditor
-              control={control}
-              name="description"
-              label="Description"
-            />
+            {/* <FormEditor */}
+            {/*   control={control} */}
+            {/*   name="description" */}
+            {/*   label="Description" */}
+            {/* /> */}
             <FormInput
               control={control}
               name="salary"
               type="number"
               label="Salary"
             />
+            {/* <Button type="submit">Submit</Button> */}
           </form>
         </Form>
         <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
