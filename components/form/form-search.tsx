@@ -1,11 +1,10 @@
 import React from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-import { fixedForwardRef } from "@/lib/utils";
+import { cn, fixedForwardRef } from "@/lib/utils";
 import { FormField, FormItem } from "@/components/ui/form";
 import { FormControl, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { X } from "lucide-react";
 
 type Props<
   T extends FieldValues,
@@ -46,15 +45,11 @@ export const FormSearch = fixedForwardRef(
       if (!searchInput) return [];
 
       const searchWords = searchInput.trim().split(/ +/);
+      const re = searchWords.map((i) => new RegExp(`${i}`, "i"));
+
       return lists
         .map((item) => getValues(item, order))
-        .filter(
-          (searchKey) =>
-            searchKey.toLowerCase().startsWith(searchWords[0].toLowerCase()) &&
-            searchWords.every((word) =>
-              searchKey.toLowerCase().includes(word.toLowerCase()),
-            ),
-        )
+        .filter((searchKey) => re.every((r) => searchKey.match(r) !== null))
         .slice(0, 5);
     }, [searchInput]);
 
@@ -78,24 +73,21 @@ export const FormSearch = fixedForwardRef(
                   autoComplete="off"
                   {...props}
                 />
-                {field.value && (
-                  <div className="flex items-center gap-1">
-                    <button type="button" onClick={() => field.onChange("")}>
-                      <X size={20} />
-                    </button>
-                    <span>{field.value}</span>
-                  </div>
-                )}
                 {searchInput && hasFocus && (
-                  <div className="absolute t-5 z-20 divide-y bg-background shadow-xl border-x border-b rounded-b-lg">
+                  <div
+                    className={cn(
+                      "absolute z-50 mt-2 p-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md",
+                      "text-sm outline-none",
+                    )}
+                  >
                     {!filteredItem.length && <p>No results found</p>}
                     {filteredItem.map((item) => (
                       <button
                         key={item}
-                        className="block w-full text-start p-2"
+                        className="w-full rounded-md text-start hover:bg-accent hover:text-accent-foreground p-2"
                         onMouseDown={() => {
                           field.onChange(item);
-                          setSearchInput("");
+                          setSearchInput(item);
                           setHasFocus(false);
                         }}
                       >

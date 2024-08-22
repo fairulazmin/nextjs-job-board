@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 const defaultValues = {
   title: "",
   type: "",
-  companyName: "",
+  name: "",
   locationTypes: "",
   location: "",
   applicationEmail: "",
@@ -133,21 +133,21 @@ export const NewJobForm = () => {
                 />
               </div>
             </div>
-            <FormEditor
-              control={control}
-              name="description"
-              label="Description"
-            />
+            {/* <FormEditor */}
+            {/*   control={control} */}
+            {/*   name="description" */}
+            {/*   label="Description" */}
+            {/* /> */}
             <FormInput
               control={control}
               name="salary"
               type="number"
               label="Salary"
             />
-            <Button type="submit">Submit</Button>
+            {/* <Button type="submit">Submit</Button> */}
           </form>
         </Form>
-        {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre> */}
+        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
       </div>
     </main>
   );

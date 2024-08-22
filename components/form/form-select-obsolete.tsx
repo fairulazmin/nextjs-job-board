@@ -1,16 +1,9 @@
 import React from "react";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
-import {
-  Select,
-  SelectItem,
-  SelectValue,
-  SelectContent,
-  SelectTrigger,
-} from "@/components/ui/select";
+import { Select } from "@/components/custom/select";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -37,20 +30,18 @@ export const FormSelect = fixedForwardRef(
         render={({ field }) => (
           <FormItem>
             <FormLabel>{label}</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
+            <FormControl>
+              <Select {...field} ref={ref} {...props}>
+                <option value="" hidden>
+                  Select an option
+                </option>
                 {options.map((option) => (
-                  <SelectItem key={option} value={option}>
+                  <option key={option} value={option}>
                     {option}
-                  </SelectItem>
+                  </option>
                 ))}
-              </SelectContent>
-            </Select>
+              </Select>
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}
