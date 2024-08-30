@@ -8,6 +8,8 @@ import {
   Subscript,
   Superscript,
   Strikethrough,
+  Undo,
+  Redo,
   List,
   ListOrdered,
 } from "lucide-react";
@@ -21,9 +23,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
     <div className="flex space-x-1 p-1">
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("bold") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleBold().run();
         }}
       >
@@ -31,9 +33,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       </Button>
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("italic") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleItalic().run();
         }}
       >
@@ -41,9 +43,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       </Button>
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("underline") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleUnderline().run();
         }}
       >
@@ -51,9 +53,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       </Button>
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("strike") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleStrike().run();
         }}
       >
@@ -61,9 +63,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       </Button>
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("subscript") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleSubscript().run();
         }}
       >
@@ -71,9 +73,9 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       </Button>
       <Button
         size="sm"
+        type="button"
         variant={editor.isActive("superscript") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={() => {
           editor.chain().focus().toggleSuperscript().run();
         }}
       >
@@ -82,24 +84,47 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       <Separator orientation="vertical" className="h-auto" />
       <Button
         size="sm"
-        variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
-          editor.chain().focus().toggleBulletList().run();
+        type="button"
+        variant="ghost"
+        disabled={!editor.can().chain().focus().undo().run()}
+        onClick={() => {
+          editor.chain().focus().undo().run();
         }}
       >
-        <List className="w-4 h-4" />
+        <Undo className="w-4 h-4" />
       </Button>
       <Button
         size="sm"
-        variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
-        onClick={(e) => {
-          e.preventDefault();
-          editor.chain().focus().toggleOrderedList().run();
+        type="button"
+        variant="ghost"
+        disabled={!editor.can().chain().focus().redo().run()}
+        onClick={() => {
+          editor.chain().focus().redo().run();
         }}
       >
-        <ListOrdered className="w-4 h-4" />
+        <Redo className="w-4 h-4" />
       </Button>
+      {/* <Separator orientation="vertical" className="h-auto" /> */}
+      {/* <Button */}
+      {/*   size="sm" */}
+      {/*   type="button" */}
+      {/*   variant={editor.isActive("bulletList") ? "secondary" : "ghost"} */}
+      {/*   onClick={() => { */}
+      {/*     editor.chain().focus().toggleBulletList().run(); */}
+      {/*   }} */}
+      {/* > */}
+      {/*   <List className="w-4 h-4" /> */}
+      {/* </Button> */}
+      {/* <Button */}
+      {/*   size="sm" */}
+      {/*   type="button" */}
+      {/*   variant={editor.isActive("orderedList") ? "secondary" : "ghost"} */}
+      {/*   onClick={(e) => { */}
+      {/*     editor.chain().focus().toggleOrderedList().run(); */}
+      {/*   }} */}
+      {/* > */}
+      {/*   <ListOrdered className="w-4 h-4" /> */}
+      {/* </Button> */}
     </div>
   );
 };

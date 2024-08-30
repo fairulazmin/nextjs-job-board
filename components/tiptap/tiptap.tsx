@@ -15,7 +15,21 @@ export const Tiptap = ({ value, name }: { value: string; name: string }) => {
   const { setValue } = useFormContext();
 
   const editor = useEditor({
-    extensions: [StarterKit, UnderlineExt, SubscriptExt, SuperscriptExt],
+    extensions: [
+      StarterKit.configure({
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` because marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false, // TODO : Making this as `false` because marks are not preserved when I try to preserve attrs, awaiting a bit of help
+        },
+      }),
+      UnderlineExt,
+      SubscriptExt,
+      SuperscriptExt,
+    ],
     editorProps: {
       attributes: {
         class:
@@ -40,7 +54,7 @@ export const Tiptap = ({ value, name }: { value: string; name: string }) => {
   return (
     <div className="group flex flex-col w-full rounded-md ring-offset-background border border-input bg-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
       <Toolbar editor={editor} />
-      <Separator />
+      <Separator className="w-auto mx-1" />
       <EditorContent style={{ whiteSpace: "pre-line" }} editor={editor} />
     </div>
   );

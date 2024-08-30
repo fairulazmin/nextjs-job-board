@@ -1,3 +1,5 @@
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>;
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";

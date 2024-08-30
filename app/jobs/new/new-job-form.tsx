@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { H1 } from "@/components/custom/h1";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
+import { FormInput as FormInput2 } from "@/components/form/form-input2";
 import { FormSearch } from "@/components/form/form-search";
 import { FormSelect } from "@/components/form/form-select";
 import { createJobSchema, CreateJobValues } from "@/lib/validation";
@@ -33,15 +34,15 @@ export const NewJobForm = () => {
     // mode: "onChange",
   });
 
-  const {
-    handleSubmit,
-    watch,
-    trigger,
-    control,
-    setValue,
-    setFocus,
-    formState: { isSubmitting },
-  } = form;
+  // const {
+  //   handleSubmit,
+  //   watch,
+  //   trigger,
+  //   control,
+  //   setValue,
+  //   setFocus,
+  //   formState: { isSubmitting },
+  // } = form;
 
   const onSubmit = async (values: CreateJobValues) => {
     alert(JSON.stringify(values, null, 2));
@@ -65,24 +66,28 @@ export const NewJobForm = () => {
         <Form {...form}>
           <form
             className="space-y-4"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             noValidate
           >
             <FormInput
-              control={control}
+              control={form.control}
               name="title"
               label="Job title"
               placeholder="e.g. Frontend Developer"
             />
             <FormSelect
-              control={control}
+              control={form.control}
               name="type"
               label="Job Type"
               options={jobTypes}
             />
-            <FormInput control={control} name="companyName" label="Company" />
             <FormInput
-              control={control}
+              control={form.control}
+              name="companyName"
+              label="Company"
+            />
+            <FormInput
+              control={form.control}
               name="companyLogo"
               label="Company Logo"
               type="file"
@@ -93,13 +98,13 @@ export const NewJobForm = () => {
               }}
             />
             <FormSelect
-              control={control}
+              control={form.control}
               name="locationType"
               label="Location"
               options={locationTypes}
             />
             <FormSearch
-              control={control}
+              form={form}
               name="location"
               placeholder="Search for a city..."
               label="Office location"
@@ -118,14 +123,14 @@ export const NewJobForm = () => {
               </Label>
               <div className="grid gap-2 md:grid-cols-2 items-start">
                 <FormInput
-                  control={control}
+                  control={form.control}
                   name="applicationEmail"
                   type="email"
                   label="none"
                   placeholder="Email"
                 />
                 <FormInput
-                  control={control}
+                  control={form.control}
                   name="applicationUrl"
                   type="url"
                   label="none"
@@ -134,20 +139,21 @@ export const NewJobForm = () => {
               </div>
             </div>
             <FormEditor
-              control={control}
+              control={form.control}
               name="description"
               label="Description"
             />
-            <FormInput
-              control={control}
+            <FormInput2
+              form={form}
               name="salary"
               type="number"
               label="Salary"
+              placeholder="10000"
             />
             <Button type="submit">Submit</Button>
           </form>
         </Form>
-        {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre> */}
+        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
       </div>
     </main>
   );
