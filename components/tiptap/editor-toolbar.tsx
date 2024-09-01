@@ -119,7 +119,7 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       {/*   size="sm" */}
       {/*   type="button" */}
       {/*   variant={editor.isActive("orderedList") ? "secondary" : "ghost"} */}
-      {/*   onClick={(e) => { */}
+      {/*   onClick={() => { */}
       {/*     editor.chain().focus().toggleOrderedList().run(); */}
       {/*   }} */}
       {/* > */}

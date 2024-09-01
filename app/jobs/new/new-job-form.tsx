@@ -70,24 +70,20 @@ export const NewJobForm = () => {
             noValidate
           >
             <FormInput
-              control={form.control}
+              form={form}
               name="title"
               label="Job title"
               placeholder="e.g. Frontend Developer"
             />
             <FormSelect
-              control={form.control}
+              form={form}
               name="type"
               label="Job Type"
               options={jobTypes}
             />
+            <FormInput form={form} name="companyName" label="Company" />
             <FormInput
-              control={form.control}
-              name="companyName"
-              label="Company"
-            />
-            <FormInput
-              control={form.control}
+              form={form}
               name="companyLogo"
               label="Company Logo"
               type="file"
@@ -98,7 +94,7 @@ export const NewJobForm = () => {
               }}
             />
             <FormSelect
-              control={form.control}
+              form={form}
               name="locationType"
               label="Location"
               options={locationTypes}
@@ -113,6 +109,7 @@ export const NewJobForm = () => {
             />
             <div className="space-y-2">
               <Label
+                onClick={() => form.setFocus("applicationEmail")}
                 className={
                   (form.formState.errors.applicationEmail ||
                     form.formState.errors.applicationUrl) &&
@@ -123,14 +120,14 @@ export const NewJobForm = () => {
               </Label>
               <div className="grid gap-2 md:grid-cols-2 items-start">
                 <FormInput
-                  control={form.control}
+                  form={form}
                   name="applicationEmail"
                   type="email"
                   label="none"
                   placeholder="Email"
                 />
                 <FormInput
-                  control={form.control}
+                  form={form}
                   name="applicationUrl"
                   type="url"
                   label="none"
@@ -138,12 +135,8 @@ export const NewJobForm = () => {
                 />
               </div>
             </div>
-            <FormEditor
-              control={form.control}
-              name="description"
-              label="Description"
-            />
-            <FormInput2
+            <FormEditor form={form} name="description" label="Description" />
+            <FormInput
               form={form}
               name="salary"
               type="number"

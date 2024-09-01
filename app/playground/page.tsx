@@ -18,6 +18,7 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type FormValues = {
@@ -34,11 +35,12 @@ export default function App() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-2xl mx-auto my-10"
+        className="max-w-2xl mx-auto my-10 space-y-3"
       >
-        <FormInput form={form} name="firstName" />
-        <FormInput form={form} name="lastName" />
-        <FormInput form={form} name="sex" />
+        <FormInput form={form} name="firstName" label="First Name" />
+        <FormInput form={form} name="lastName" label="Last Name" />
+        <FormInput form={form} name="sex" label="Sex" />
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
@@ -47,11 +49,13 @@ export default function App() {
 type FormInputProps<T extends FieldValues, P extends FieldPath<T>> = {
   form: UseFormReturn<T>;
   name: P;
+  label: string;
 } & Omit<React.ComponentPropsWithoutRef<"input">, "form">;
 
 const FormInput = <T extends FieldValues, P extends FieldPath<T>>({
   form,
   name,
+  label,
   ...props
 }: FormInputProps<T, P>) => {
   return (
@@ -60,9 +64,9 @@ const FormInput = <T extends FieldValues, P extends FieldPath<T>>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>First Name</FormLabel>
+          <FormLabel onClick={() => console.log(field)}>{label}</FormLabel>
           <FormControl>
-            <Input {...field} {...props} />
+            <Input {...field} ref={(elm) => console.log(elm)} {...props} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -70,3 +74,17 @@ const FormInput = <T extends FieldValues, P extends FieldPath<T>>({
     />
   );
 };
+
+/**
+  ref:((elm) => {
+      const field = get(control._fields, name);
+      if (field && elm) {
+          field._f.ref = {
+              focus: () => elm.focus(),
+              select: () => elm.select(),
+              setCustomValidity: (message) => elm.setCustomValidity(message),
+              reportValidity: () => elm.reportValidity(),
+          };
+      }
+  }
+**/

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Control,
-  FieldPath,
-  FieldValues,
-  UseFormReturn,
-} from "react-hook-form";
+import { FieldPath, FieldValues, UseFormReturn } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
 import { FormField, FormItem } from "@/components/ui/form";
@@ -21,9 +16,7 @@ type Props<
   label: string;
   lists: K[];
   order: Array<keyof K>;
-} & React.InputHTMLAttributes<HTMLInputElement>;
-
-// React.ComponentPropsWithoutRef<"input">
+} & Omit<React.ComponentPropsWithoutRef<"input">, "form">;
 
 const getValues = <T extends Record<string, any>>(
   obj: T,
