@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FieldPath, FieldValues, UseFormReturn } from "react-hook-form";
 
 import { FormField, FormItem } from "@/components/ui/form";
@@ -12,24 +12,28 @@ type Props<T extends FieldValues, P extends FieldPath<T>> = {
 };
 
 export const FormEditor = <T extends FieldValues, P extends FieldPath<T>>({
-  form: { control, setFocus },
+  form: { control },
   name,
   label,
 }: Props<T, P>) => {
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  const setEditorFocus = () => {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+  };
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel onClick={() => setFocus(name)}>{label}</FormLabel>
+          <FormLabel onClick={setEditorFocus}>{label}</FormLabel>
           {/* <FormLabel>{label}</FormLabel> */}
           <FormControl>
-            <Tiptap
-              content={field.value}
-              onChange={field.onChange}
-              ref={field.ref}
-            />
+            <Tiptap {...field} ref={editorRef} content={field.value} />
           </FormControl>
           <FormMessage />
         </FormItem>
