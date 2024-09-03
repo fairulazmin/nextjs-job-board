@@ -18,6 +18,13 @@ export const relativeDate = (from: Date) => {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 };
 
+export const toSlug = (str: string) => {
+  return str
+    .toLowerCase()
+    .replace(/ /g, "-") //replace space with "-"
+    .replace(/[^\w-]+/g, ""); //replace multiple space with single space
+};
+
 type FixedForwardRef = <T, P = {}>(
   render: (props: P, ref: React.Ref<T>) => React.ReactElement | null,
 ) => (props: P & React.RefAttributes<T>) => React.ReactElement | null;

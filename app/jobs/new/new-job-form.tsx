@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { H1 } from "@/components/custom/h1";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/form/form-input";
-import { FormInput as FormInput2 } from "@/components/form/form-input2";
 import { FormSearch } from "@/components/form/form-search";
 import { FormSelect } from "@/components/form/form-select";
 import { createJobSchema, CreateJobValues } from "@/lib/validation";
@@ -14,6 +13,8 @@ import citiesList from "@/lib/cities-list";
 import { Label } from "@/components/ui/label";
 import { FormEditor } from "@/components/form/form-editor";
 import { Button } from "@/components/ui/button";
+import { LoadingButton } from "@/components/custom/loadingButton";
+import { createJobPosting } from "./actions";
 
 const defaultValues = {
   title: "",
@@ -34,18 +35,21 @@ export const NewJobForm = () => {
     // mode: "onChange",
   });
 
-  // const {
-  //   handleSubmit,
-  //   watch,
-  //   trigger,
-  //   control,
-  //   setValue,
-  //   setFocus,
-  //   formState: { isSubmitting },
-  // } = form;
-
   const onSubmit = async (values: CreateJobValues) => {
-    alert(JSON.stringify(values, null, 2));
+    // alert(JSON.stringify(values, null, 2));
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value);
+      }
+    });
+
+    try {
+      await createJobPosting(formData);
+    } catch (error) {
+      alert("Something went wrong, please try again");
+    }
   };
 
   return (
@@ -98,6 +102,9 @@ export const NewJobForm = () => {
               name="locationType"
               label="Location"
               options={locationTypes}
+              onTrigger={(e) => {
+                if (e === "Remote") form.trigger("location");
+              }}
             />
             <FormSearch
               form={form}
@@ -125,6 +132,7 @@ export const NewJobForm = () => {
                   type="email"
                   label="none"
                   placeholder="Email"
+                  onTrigger={() => form.trigger("applicationUrl")}
                 />
                 <FormInput
                   form={form}
@@ -132,6 +140,7 @@ export const NewJobForm = () => {
                   type="url"
                   label="none"
                   placeholder="Website"
+                  onTrigger={() => form.trigger("applicationEmail")}
                 />
               </div>
             </div>
@@ -143,14 +152,13 @@ export const NewJobForm = () => {
               label="Salary"
               placeholder="10000"
             />
-            <Button type="submit">Submit</Button>
+            <LoadingButton type="submit" loading={form.formState.isSubmitting}>
+              Submit
+            </LoadingButton>
           </form>
         </Form>
-        <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(form.formState.errors, null, 2)}</pre> */}
       </div>
     </main>
   );
 };
-
-// "company" caused not able to submit & no ref
-// "description" caused can't call setState & no ref

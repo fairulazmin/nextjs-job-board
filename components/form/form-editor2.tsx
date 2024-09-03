@@ -20,12 +20,7 @@ export const FormEditor = <T extends FieldValues, P extends FieldPath<T>>({
 
   const setEditorFocus = () => {
     if (editorRef.current) {
-      const editor = editorRef.current.querySelector(
-        '[contenteditable="true"]',
-      );
-      if (editor) {
-        (editor as HTMLElement).focus();
-      }
+      editorRef.current.focus();
     }
   };
 
@@ -36,6 +31,7 @@ export const FormEditor = <T extends FieldValues, P extends FieldPath<T>>({
       render={({ field }) => (
         <FormItem>
           <FormLabel onClick={setEditorFocus}>{label}</FormLabel>
+          {/* <FormLabel>{label}</FormLabel> */}
           <FormControl>
             <Tiptap {...field} ref={editorRef} content={field.value} />
           </FormControl>

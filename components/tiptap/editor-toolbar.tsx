@@ -85,6 +85,27 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       <Button
         size="sm"
         type="button"
+        variant={editor.isActive("bulletList") ? "secondary" : "ghost"}
+        onClick={() => {
+          editor.chain().focus().toggleBulletList().run();
+        }}
+      >
+        <List className="w-4 h-4" />
+      </Button>
+      <Button
+        size="sm"
+        type="button"
+        variant={editor.isActive("orderedList") ? "secondary" : "ghost"}
+        onClick={() => {
+          editor.chain().focus().toggleOrderedList().run();
+        }}
+      >
+        <ListOrdered className="w-4 h-4" />
+      </Button>
+      <Separator orientation="vertical" className="h-auto" />
+      <Button
+        size="sm"
+        type="button"
         variant="ghost"
         disabled={!editor.can().chain().focus().undo().run()}
         onClick={() => {
@@ -104,27 +125,6 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <Redo className="w-4 h-4" />
       </Button>
-      {/* <Separator orientation="vertical" className="h-auto" /> */}
-      {/* <Button */}
-      {/*   size="sm" */}
-      {/*   type="button" */}
-      {/*   variant={editor.isActive("bulletList") ? "secondary" : "ghost"} */}
-      {/*   onClick={() => { */}
-      {/*     editor.chain().focus().toggleBulletList().run(); */}
-      {/*   }} */}
-      {/* > */}
-      {/*   <List className="w-4 h-4" /> */}
-      {/* </Button> */}
-      {/* <Button */}
-      {/*   size="sm" */}
-      {/*   type="button" */}
-      {/*   variant={editor.isActive("orderedList") ? "secondary" : "ghost"} */}
-      {/*   onClick={() => { */}
-      {/*     editor.chain().focus().toggleOrderedList().run(); */}
-      {/*   }} */}
-      {/* > */}
-      {/*   <ListOrdered className="w-4 h-4" /> */}
-      {/* </Button> */}
     </div>
   );
 };

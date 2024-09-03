@@ -21,6 +21,7 @@ type Props<T extends FieldValues, P extends FieldPath<T>, K extends string> = {
   name: P;
   label: string;
   options: K[];
+  onTrigger?: (value: K) => void;
 };
 
 export const FormSelect = <
@@ -32,6 +33,7 @@ export const FormSelect = <
   name,
   label,
   options,
+  onTrigger,
 }: Props<T, P, K>) => {
   return (
     <FormField
@@ -40,7 +42,15 @@ export const FormSelect = <
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={(e) => {
+              field.onChange(e);
+              if (onTrigger) {
+                onTrigger(e as K);
+              }
+            }}
+            defaultValue={field.value}
+          >
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder="Select an option" />
