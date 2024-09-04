@@ -1,13 +1,15 @@
 "use server";
 
-import { toSlug } from "@/lib/utils";
+import { storeCompanyLogo, toSlug } from "@/lib/utils";
 import { createJobSchema } from "@/lib/validation";
 import db from "@/prisma/db";
-import { nanoid } from "nanoid";
 import { redirect } from "next/navigation";
 
 export const createJobPosting = async (formData: FormData) => {
   const values = Object.fromEntries(formData.entries());
+
+  const result = createJobSchema.safeParse(values);
+  if (!result.success) return result.error.formErrors.fieldErrors;
 
   const {
     title,
@@ -20,31 +22,30 @@ export const createJobPosting = async (formData: FormData) => {
     applicationUrl,
     description,
     salary,
-  } = createJobSchema.parse(values);
+  } = result.data;
 
-  const slug = `${toSlug(title)}-${nanoid(10)}`;
+  const slug = toSlug(title);
 
-  let companyLogoUrl: string | undefined = undefined;
-
-  if (companyLogo) {
-  }
+  const companyLogoUrl = companyLogo
+    ? await storeCompanyLogo(companyLogo, companyName)
+    : undefined;
 
   await db.job.create({
     data: {
       slug,
       title: title.trim(),
       type,
-      companyName: companyName.trim(),
-      companyLogoUrl,
       locationType,
       location,
-      applicationEmail: applicationEmail?.trim(),
-      applicationUrl: applicationUrl?.trim(),
       description: description?.trim(),
       salary: parseInt(salary),
+      companyName: companyName.trim(),
+      applicationEmail: applicationEmail?.trim(),
+      applicationUrl: applicationUrl?.trim(),
+      companyLogoUrl,
       approved: true, //remove in production
     },
   });
 
-  redirect("/job-submitted");
+  redirect("/new/job-submitted");
 };

@@ -12,7 +12,6 @@ import { jobTypes, locationTypes } from "@/lib/job-types";
 import citiesList from "@/lib/cities-list";
 import { Label } from "@/components/ui/label";
 import { FormEditor } from "@/components/form/form-editor";
-import { Button } from "@/components/ui/button";
 import { LoadingButton } from "@/components/custom/loadingButton";
 import { createJobPosting } from "./actions";
 
@@ -92,10 +91,6 @@ export const NewJobForm = () => {
               label="Company Logo"
               type="file"
               accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                form.setValue("companyLogo", file);
-              }}
             />
             <FormSelect
               form={form}

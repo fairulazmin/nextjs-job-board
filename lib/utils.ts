@@ -2,6 +2,9 @@ import { forwardRef } from "react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNowStrict } from "date-fns";
+import { nanoid } from "nanoid";
+import fs from "fs/promises";
+import path from "path";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,11 +21,22 @@ export const relativeDate = (from: Date) => {
   return formatDistanceToNowStrict(from, { addSuffix: true });
 };
 
-export const toSlug = (str: string) => {
+const cleanStr = (str: string) => {
   return str
     .toLowerCase()
     .replace(/ /g, "-") //replace space with "-"
     .replace(/[^\w-]+/g, ""); //replace multiple space with single space
+};
+
+export const toSlug = (str: string) => {
+  return `${cleanStr(str)}-${nanoid(10)}`;
+};
+
+export const storeCompanyLogo = async (file: File, str: string) => {
+  await fs.mkdir("download/logo", { recursive: true });
+  const logoPath = `download/logo/${cleanStr(str)}-${nanoid(10)}${path.extname(file.name)}`;
+  await fs.writeFile(logoPath, Buffer.from(await file.arrayBuffer()));
+  return logoPath;
 };
 
 type FixedForwardRef = <T, P = {}>(

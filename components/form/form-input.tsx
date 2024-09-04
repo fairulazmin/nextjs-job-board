@@ -23,15 +23,17 @@ export const FormInput = <T extends FieldValues, P extends FieldPath<T>>({
     <FormField
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field: { value, ...fieldValues } }) => (
         <FormItem>
           {label !== "none" && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input
-              {...field}
+              {...fieldValues}
               onChange={(e) => {
-                field.onChange(e);
-                if (onTrigger) onTrigger();
+                props.type === "file"
+                  ? fieldValues.onChange(e.target.files?.[0])
+                  : fieldValues.onChange(e);
+                onTrigger && onTrigger();
               }}
               {...props}
             />
