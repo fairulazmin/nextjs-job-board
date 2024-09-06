@@ -33,8 +33,8 @@ export const toSlug = (str: string) => {
 };
 
 export const storeCompanyLogo = async (file: File, str: string) => {
-  await fs.mkdir("download/logo", { recursive: true });
-  const logoPath = `download/logo/${cleanStr(str)}-${nanoid(10)}${path.extname(file.name)}`;
+  await fs.mkdir("public/downloads/logo", { recursive: true });
+  const logoPath = `/downloads/logo/${cleanStr(str)}-${nanoid(10)}${path.extname(file.name)}`;
   await fs.writeFile(logoPath, Buffer.from(await file.arrayBuffer()));
   return logoPath;
 };

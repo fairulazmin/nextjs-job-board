@@ -24,13 +24,13 @@ import {
 
 export const Toolbar = ({ editor }: { editor: Editor | null }) => {
   const [linkUrl, setLinkUrl] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
 
   const setLink = useCallback(() => {
     if (!editor || !linkUrl) {
       editor?.chain().focus().extendMarkRange("link").unsetLink().run();
       return;
     }
+    // Basic URL validation
     if (!/^https?:\/\//.test(linkUrl)) {
       alert("Please enter a valid URL starting with http:// or https://");
       return;
@@ -130,7 +130,7 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <ListOrdered className="w-4 h-4" />
       </Button>
-      <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <Popover>
         <PopoverTrigger asChild>
           <Button
             size="sm"
@@ -141,21 +141,18 @@ export const Toolbar = ({ editor }: { editor: Editor | null }) => {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-80">
-          <div className="flex flex-col space-y-5">
+          <div className="flex flex-col space-y-2">
             <Input
               type="url"
               placeholder="Enter URL"
-              value={editor.getAttributes("link").href}
+              value={linkUrl}
               onChange={(e) => setLinkUrl(e.target.value)}
             />
             <div className="flex justify-end space-x-2">
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => {
-                  editor.chain().focus().unsetLink().run();
-                  setIsOpen(false);
-                }}
+                onClick={() => editor.chain().focus().unsetLink().run()}
                 disabled={!editor.isActive("link")}
               >
                 Remove Link

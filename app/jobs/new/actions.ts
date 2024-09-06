@@ -1,9 +1,10 @@
 "use server";
 
+import { redirect } from "next/navigation";
+import TurndownService from "turndown";
 import { storeCompanyLogo, toSlug } from "@/lib/utils";
 import { createJobSchema } from "@/lib/validation";
 import db from "@/prisma/db";
-import { redirect } from "next/navigation";
 
 export const createJobPosting = async (formData: FormData) => {
   const values = Object.fromEntries(formData.entries());
@@ -30,6 +31,10 @@ export const createJobPosting = async (formData: FormData) => {
     ? await storeCompanyLogo(companyLogo, companyName)
     : undefined;
 
+  const turndownService = new TurndownService();
+  const description_md =
+    description && turndownService.turndown(description.trim());
+
   await db.job.create({
     data: {
       slug,
@@ -37,13 +42,13 @@ export const createJobPosting = async (formData: FormData) => {
       type,
       locationType,
       location,
-      description: description?.trim(),
+      description: description_md,
       salary: parseInt(salary),
       companyName: companyName.trim(),
       applicationEmail: applicationEmail?.trim(),
       applicationUrl: applicationUrl?.trim(),
       companyLogoUrl,
-      approved: true, //remove in production
+      // approved: true, //remove in production
     },
   });
 

@@ -15,9 +15,11 @@
     "@prisma/client": "^5.18.0",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@tiptap/extension-link": "^2.6.6",
     "@tiptap/extension-list-item": "^2.6.5",
     "@tiptap/extension-strike": "^2.6.5",
     "@tiptap/extension-subscript": "^2.6.5",
@@ -41,6 +43,8 @@
     "react-markdown": "^9.0.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "tiptap-markdown": "^0.8.10",
+    "turndown": "^7.2.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -49,6 +53,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-draft-wysiwyg": "^1.13.8",
+    "@types/turndown": "^5.0.5",
     "eslint": "^9",
     "eslint-config-next": "^0.2.4",
     "postcss": "^8",

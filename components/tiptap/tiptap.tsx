@@ -6,6 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { Underline as UnderlineExt } from "@tiptap/extension-underline";
 import { Subscript as SubscriptExt } from "@tiptap/extension-subscript";
 import { Superscript as SuperscriptExt } from "@tiptap/extension-superscript";
+import { Link } from "@tiptap/extension-link";
 
 import { Separator } from "@/components/ui/separator";
 import { Toolbar } from "@/components/tiptap/editor-toolbar";
@@ -32,12 +33,17 @@ export const Tiptap = React.forwardRef<HTMLDivElement, TipTapProps>(
         UnderlineExt,
         SubscriptExt,
         SuperscriptExt,
+        Link.configure({
+          openOnClick: false,
+          autolink: true,
+          defaultProtocol: "https",
+        }),
       ],
       content,
       editorProps: {
         attributes: {
           class:
-            "min-h-[80px] text-sm m-2 placeholder:text-muted-foreground focus:outline-none",
+            "editor-container min-h-[80px] text-sm m-2 placeholder:text-muted-foreground focus:outline-none",
         },
       },
       onUpdate: ({ editor }) => {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { JobListItem } from "./jobListItem";
 import db from "@/prisma/db";
 import { JobFilterValues } from "@/lib/validation";
@@ -65,7 +66,9 @@ export const JobResults = async ({
   return (
     <div className="space-y-4">
       {jobs.map((job) => (
-        <JobListItem job={job} key={job.id} />
+        <Link key={job.id} href={`/jobs/${job.slug}`} className="block">
+          <JobListItem job={job} />
+        </Link>
       ))}
       {jobs.length === 0 && (
         <p className="text-center m-auto">
