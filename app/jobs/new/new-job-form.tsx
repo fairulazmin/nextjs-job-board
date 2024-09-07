@@ -47,7 +47,7 @@ export const NewJobForm = () => {
     try {
       await createJobPosting(formData);
     } catch (error) {
-      alert("Something went wrong, please try again");
+      alert(`Something went wrong, please try again\n${error}`);
     }
   };
 
