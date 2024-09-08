@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export const Playground2 = () => {
+export const NextImage = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-5">
       <Image

@@ -4,10 +4,7 @@ import {
   useForm,
   FieldValues,
   UseFormReturn,
-  SubmitHandler,
   FieldPath,
-  Control,
-  UseFormRegisterReturn,
 } from "react-hook-form";
 import React from "react";
 import {
@@ -17,7 +14,6 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,7 +38,7 @@ const defaultValues = {
   country: "",
 };
 
-export function Playground1() {
+export function InputForm() {
   const onSubmit = (data: FormValues) => console.log(data);
   const form = useForm<FormValues>({
     defaultValues,

@@ -1,8 +1,8 @@
-import { Playground1 } from "./playground1";
-import { Playground2 } from "./playground2";
+import { InputForm } from "./input-form";
+import { NextImage } from "./next-image";
 
 const PlaygroundPage = () => {
-  return <Playground2 />;
+  return <NextImage />;
 };
 
 export default PlaygroundPage;

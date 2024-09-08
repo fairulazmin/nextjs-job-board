@@ -31,6 +31,7 @@ export const JobPage = ({
             alt="Company logo"
             width={100}
             height={100}
+            // style={{ width: "100%", height: "auto" }}
             className="rounded-xl"
           />
         )}

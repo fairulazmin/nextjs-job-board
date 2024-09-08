@@ -10,8 +10,13 @@ export const Markdown = ({ children }: MarkdownProps) => {
       className="space-y-3"
       components={{
         ul: (props) => <ul className="list-inside list-disc" {...props} />,
+        ol: (props) => <ol className="list-inside list-decimal" {...props} />,
         a: (props) => (
-          <a className="text-green-500 underline" target="_blank" {...props} />
+          <a
+            className="text-blue-500 underline hover:text-blue-700"
+            target="_blank"
+            {...props}
+          />
         ),
       }}
     >
