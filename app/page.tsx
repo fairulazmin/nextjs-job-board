@@ -40,6 +40,7 @@ export const generateMetadata = ({
     })} | Flow Jobs`,
   };
 };
+
 export default async function Home({
   searchParams: { q, type, location, remote },
 }: PageProps) {
