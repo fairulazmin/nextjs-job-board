@@ -29,7 +29,7 @@ export const JobListItem = ({
         alt={`${companyName} logo`}
         width={100}
         height={100}
-        className="rounded-lg self-center "
+        className="rounded-lg self-center p-2"
       />
       <div className="flex-grow space-y-3">
         <div>
